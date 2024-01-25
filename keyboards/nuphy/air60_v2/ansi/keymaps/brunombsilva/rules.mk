@@ -1,0 +1,16 @@
+VIA_ENABLE = yes
+TAP_DANCE_ENABLE = yes
+KEY_OVERRIDE_ENABLE = yes
+CAPS_WORD_ENABLE = yes
+AUTOCORRECT_ENABLE = yes
+LEADER_ENABLE = yes
+
+CONSOLE_ENABLE = yes
+
+# MK_KINETIC_SPEED = yes
+# MOUSEKEY_INERTIA = yes
+
+SRC += via.c
+SRC += rgb.c
+SRC += leader.c
+SRC += tap_dance.c

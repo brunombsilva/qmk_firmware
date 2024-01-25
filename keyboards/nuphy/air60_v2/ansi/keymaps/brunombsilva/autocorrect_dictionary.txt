@@ -1,0 +1,6 @@
+:thier        -> their
+fitler        -> filter
+lenght        -> length
+ouput         -> output
+widht         -> width
+:cat          -> unicode::D83D+DC31
