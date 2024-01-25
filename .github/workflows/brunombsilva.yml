@@ -1,0 +1,62 @@
+name: brunombsilva@ CI Builds
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [brunombsilva]
+  workflow_dispatch:
+    inputs:
+      branch:
+        type: choice
+        description: 'Branch to build'
+        options: [brunombsilva]
+
+concurrency: ci_build-${{ github.event.inputs.branch || github.ref_name }}
+
+jobs:
+  ci_builds:
+    if: github.repository == 'brunombsilva/qmk_firmware'
+    name: "brunombsilva@ CI Build"
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        keyboard: [nuphy/air60_v2/ansi]
+        keymap: [brunombsilva]
+
+    container: ghcr.io/qmk/qmk_cli
+
+    steps:
+    - name: Disable safe.directory check
+      run : git config --global --add safe.directory '*'
+
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        ref: ${{ github.event.inputs.branch || github.ref }}
+
+    - name: Install dependencies
+      run: pip3 install -r requirements.txt
+
+    - name: Run `qmk compile` (keymap ${{ matrix.keymap }})
+      run: |
+        qmk compile -kb ${{ matrix.keyboard }}  -km ${{ matrix.keymap }} -e DUMP_CI_METADATA=yes || touch .failed
+        # Generate the step summary markdown
+        ./util/ci/generate_failure_markdown.sh > $GITHUB_STEP_SUMMARY || true
+        # Truncate to a maximum of 1MB to deal with GitHub workflow limit
+        truncate --size='<960K' $GITHUB_STEP_SUMMARY || true
+        # Exit with failure if the compilation stage failed
+        [ ! -f .failed ] || exit 1
+
+    - name: 'Upload artifacts'
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: nuphy_air60_v2_ansi_brunombsilva.bin
+        # name: ${{ matrix.keyboard }}-${{ matrix.keymap }}
+        if-no-files-found: error
+        path: nuphy_air60_v2_ansi_brunombsilva.bin
+        compression-level: 0 # no compression
