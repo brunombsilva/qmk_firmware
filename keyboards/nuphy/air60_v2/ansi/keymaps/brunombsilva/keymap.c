@@ -7,13 +7,13 @@ void rgb_test_show_user(void);
 void set_rgb_defaults(void);
 void update_rbg_side_indicators(void);
 
-const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
+//const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
 
 // This globally defines all key overrides to be used
-const key_override_t **key_overrides = (const key_override_t *[]){
-    &delete_key_override,
-    NULL // Null terminate the array of overrides!
-};
+// const key_override_t **key_overrides = (const key_override_t *[]){
+//    &delete_key_override,
+//    NULL // Null terminate the array of overrides!
+// };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -25,7 +25,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	KC_LCTL,	KC_LALT,	    KC_LGUI,										        KC_SPC, 							KC_RGUI,	TD(TD_LAYER),   KC_LEFT,	KC_DOWN,    KC_RGHT),
 
 [FN_LAYER] = LAYOUT(
-	KC_GRV, 	KC_BRID,  	    KC_BRIU,        MAC_TASK,       MAC_SEARCH, MAC_VOICE,  MAC_DND,  	KC_MPRV,  	KC_MPLY,  	KC_MNXT, 	KC_MUTE, 	KC_VOLD,    KC_VOLU, 	BAT_NUM,
+	KC_GRV, 	KC_BRID,  	    KC_BRIU,        MAC_TASK,       MAC_SEARCH, MAC_VOICE,  MAC_DND,  	KC_MPRV,  	KC_MPLY,  	KC_MNXT, 	KC_MUTE, 	KC_VOLD,    KC_VOLU, 	KC_DEL,
 	_______, 	KC_MS_BTN1,     KC_MS_UP,       KC_MS_BTN2,     _______,   	_______,    _______,    _______,    _______,   	_______,  	_______,   	DEV_RESET,  SLEEP_MODE, BAT_SHOW,
 	_______, 	KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    _______,   	_______,   	_______,   	_______,   	_______,   	_______,  	_______,   	_______,	            _______,
 	_______,    KC_MS_WH_UP,    CK_RGB_TEST,    KC_MS_WH_DOWN,  _______,   	_______,   	_______,   	_______,   	RGB_SPD,	RGB_SPI,  	_______,	_______,    KC_PGUP,    _______,
